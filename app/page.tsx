@@ -10,7 +10,6 @@ import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
-// Skeleton available from @/components/ui/skeleton if needed
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import {
@@ -18,7 +17,9 @@ import {
   FiClock, FiChevronDown, FiChevronUp, FiTrash2, FiMessageSquare,
   FiBookmark, FiCompass, FiGlobe, FiMenu, FiX, FiSearch,
   FiArrowRight, FiCheck, FiAlertCircle, FiRefreshCw, FiMap,
-  FiChevronRight, FiTrendingUp, FiInfo
+  FiChevronRight, FiTrendingUp, FiInfo, FiSun, FiTwitter,
+  FiInstagram, FiYoutube, FiHeart, FiShield, FiMail,
+  FiAward, FiNavigation, FiSunrise, FiCoffee, FiCamera
 } from 'react-icons/fi'
 import { HiSparkles } from 'react-icons/hi'
 import { BiHotel, BiWalk } from 'react-icons/bi'
@@ -122,26 +123,32 @@ const SAMPLE_RESPONSE: TravelResponse = {
 }
 
 const FEATURED_DESTINATIONS = [
-  { name: "Kyoto, Japan", price: "From $1,200", category: "Solo", gradient: "from-amber-800 via-amber-700 to-yellow-600" },
-  { name: "Santorini, Greece", price: "From $1,800", category: "Luxury", gradient: "from-blue-800 via-blue-600 to-cyan-500" },
-  { name: "Bali, Indonesia", price: "From $900", category: "Budget", gradient: "from-green-800 via-emerald-600 to-teal-500" },
-  { name: "Swiss Alps", price: "From $2,200", category: "Luxury", gradient: "from-slate-700 via-sky-600 to-blue-400" },
-  { name: "Marrakech, Morocco", price: "From $850", category: "Budget", gradient: "from-orange-800 via-red-700 to-amber-600" },
-  { name: "Patagonia, Chile", price: "From $1,500", category: "Solo", gradient: "from-indigo-800 via-violet-600 to-purple-500" }
+  { name: "Kyoto, Japan", price: "From $1,200", category: "Solo", gradient: "from-pink-900 via-rose-700 to-amber-500", tagline: "Ancient temples & zen gardens", icon: FiSunrise },
+  { name: "Santorini, Greece", price: "From $1,800", category: "Luxury", gradient: "from-blue-900 via-blue-500 to-sky-300", tagline: "White-washed cliffs & sunsets", icon: FiSun },
+  { name: "Bali, Indonesia", price: "From $900", category: "Budget", gradient: "from-emerald-900 via-green-600 to-teal-400", tagline: "Lush jungles & sacred temples", icon: FiCoffee },
+  { name: "Swiss Alps", price: "From $2,200", category: "Luxury", gradient: "from-slate-800 via-blue-600 to-sky-200", tagline: "Majestic peaks & alpine villages", icon: FiNavigation },
+  { name: "Marrakech, Morocco", price: "From $850", category: "Budget", gradient: "from-orange-900 via-red-700 to-amber-500", tagline: "Vibrant souks & spice markets", icon: FiCompass },
+  { name: "Patagonia, Chile", price: "From $1,500", category: "Solo", gradient: "from-violet-900 via-purple-600 to-indigo-400", tagline: "Dramatic fjords & glaciers", icon: FiCamera }
 ]
 
 const TRENDING_DEALS = [
-  { destination: "Tokyo", discount: "25% off", original: "$2,400", now: "$1,800", days: 5 },
-  { destination: "Barcelona", discount: "30% off", original: "$1,600", now: "$1,120", days: 4 },
-  { destination: "Reykjavik", discount: "20% off", original: "$2,000", now: "$1,600", days: 3 },
-  { destination: "Cape Town", discount: "15% off", original: "$1,900", now: "$1,615", days: 6 }
+  { destination: "Tokyo", discount: "25% off", original: "$2,400", now: "$1,800", days: 5, gradient: "from-red-800 via-rose-600 to-pink-400" },
+  { destination: "Barcelona", discount: "30% off", original: "$1,600", now: "$1,120", days: 4, gradient: "from-orange-800 via-amber-600 to-yellow-400" },
+  { destination: "Reykjavik", discount: "20% off", original: "$2,000", now: "$1,600", days: 3, gradient: "from-cyan-800 via-teal-600 to-emerald-400" },
+  { destination: "Cape Town", discount: "15% off", original: "$1,900", now: "$1,615", days: 6, gradient: "from-amber-800 via-orange-600 to-red-400" }
 ]
 
 const QUICK_PROMPTS = [
-  "Budget trip to Bali for 5 days",
-  "Luxury Europe tour for 2 weeks",
-  "Solo Japan adventure for 7 days",
-  "Family beach vacation under $3000"
+  { text: "Budget trip to Bali for 5 days", icon: FiSun },
+  { text: "Luxury Europe tour for 2 weeks", icon: FiStar },
+  { text: "Solo Japan adventure for 7 days", icon: FiCompass },
+  { text: "Family beach vacation under $3000", icon: FiHeart }
+]
+
+const TESTIMONIALS = [
+  { name: "Sarah Mitchell", initials: "SM", location: "New York, USA", quote: "TravelEase planned our honeymoon to Santorini and it was absolutely perfect. Every restaurant, every sunset spot -- they nailed it.", rating: 5, color: "bg-rose-500" },
+  { name: "James Chen", initials: "JC", location: "London, UK", quote: "I was skeptical about AI travel planning, but the Kyoto itinerary was better than anything I could have built on my own. The local tips were incredible.", rating: 5, color: "bg-blue-500" },
+  { name: "Amara Osei", initials: "AO", location: "Toronto, Canada", quote: "Used TravelEase for a budget backpacking trip through Southeast Asia. Saved me hours of research and found hidden gems I never would have discovered.", rating: 5, color: "bg-emerald-500" }
 ]
 
 // ============================================================
@@ -254,20 +261,20 @@ function TypingIndicator() {
 // ============================================================
 function HotelCardComponent({ hotel }: { hotel: Hotel }) {
   return (
-    <Card className="overflow-hidden border-border/50 hover:shadow-lg transition-all duration-300">
-      <div className="h-2 bg-gradient-to-r from-amber-700 via-amber-600 to-yellow-500" />
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between mb-2">
+    <Card className="overflow-hidden border-border/50 hover:shadow-lg transition-all duration-300 group">
+      <div className="h-2 bg-gradient-to-r from-amber-700 via-amber-500 to-yellow-400" />
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between mb-3">
           <div>
             <h4 className="font-serif font-semibold text-sm tracking-wide">{hotel?.name ?? 'Hotel'}</h4>
-            {renderStars(hotel?.rating ?? 0)}
+            <div className="mt-1">{renderStars(hotel?.rating ?? 0)}</div>
           </div>
-          <Badge variant="secondary" className="text-xs capitalize">{hotel?.category ?? 'Standard'}</Badge>
+          <Badge variant="secondary" className="text-xs capitalize font-serif">{hotel?.category ?? 'Standard'}</Badge>
         </div>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-3">{hotel?.description ?? ''}</p>
-        <div className="flex items-center justify-between">
-          <span className="font-serif font-bold text-primary text-sm">{hotel?.price_per_night ?? 'N/A'}</span>
-          <span className="text-xs text-muted-foreground">per night</span>
+        <p className="text-xs text-muted-foreground leading-relaxed mb-4">{hotel?.description ?? ''}</p>
+        <div className="flex items-center justify-between pt-3 border-t border-border/30">
+          <span className="font-serif font-bold text-primary text-base">{hotel?.price_per_night ?? 'N/A'}</span>
+          <span className="text-xs text-muted-foreground italic">per night</span>
         </div>
       </CardContent>
     </Card>
@@ -279,17 +286,17 @@ function HotelCardComponent({ hotel }: { hotel: Hotel }) {
 // ============================================================
 function TourCardComponent({ tour }: { tour: Tour }) {
   return (
-    <Card className="overflow-hidden border-border/50 hover:shadow-lg transition-all duration-300">
-      <CardContent className="p-4">
+    <Card className="overflow-hidden border-border/50 hover:shadow-lg transition-all duration-300 group">
+      <CardContent className="p-5">
         <div className="flex items-start gap-3">
-          <div className="h-10 w-10 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
+          <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center flex-shrink-0">
             <BiWalk className="h-5 w-5 text-accent" />
           </div>
           <div className="flex-1 min-w-0">
             <h4 className="font-serif font-semibold text-sm tracking-wide">{tour?.name ?? 'Tour'}</h4>
-            <p className="text-xs text-muted-foreground leading-relaxed mt-1">{tour?.description ?? ''}</p>
-            <div className="flex items-center gap-3 mt-2">
-              <span className="flex items-center gap-1 text-xs text-muted-foreground"><FiClock className="h-3 w-3" />{tour?.duration ?? 'N/A'}</span>
+            <p className="text-xs text-muted-foreground leading-relaxed mt-1.5">{tour?.description ?? ''}</p>
+            <div className="flex items-center gap-4 mt-3 pt-2 border-t border-border/30">
+              <span className="flex items-center gap-1.5 text-xs text-muted-foreground"><FiClock className="h-3 w-3" />{tour?.duration ?? 'N/A'}</span>
               <span className="font-serif font-bold text-primary text-sm">{tour?.price ?? 'N/A'}</span>
             </div>
           </div>
@@ -310,7 +317,7 @@ function ItineraryDayBlock({ day }: { day: ItineraryDay }) {
     <Card className="overflow-hidden border-border/50">
       <button onClick={() => setExpanded(!expanded)} className="w-full p-4 flex items-center justify-between text-left hover:bg-secondary/30 transition-colors">
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-bold">{day?.day ?? '?'}</div>
+          <div className="h-9 w-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground text-xs font-bold shadow-md">{day?.day ?? '?'}</div>
           <span className="font-serif font-semibold text-sm tracking-wide">{day?.title ?? `Day ${day?.day ?? '?'}`}</span>
         </div>
         {expanded ? <FiChevronUp className="h-4 w-4 text-muted-foreground" /> : <FiChevronDown className="h-4 w-4 text-muted-foreground" />}
@@ -326,7 +333,7 @@ function ItineraryDayBlock({ day }: { day: ItineraryDay }) {
             ))}
           </ul>
           {day?.tips && (
-            <div className="flex items-start gap-2 p-3 rounded-lg bg-accent/10 border border-accent/20">
+            <div className="flex items-start gap-2 p-3 rounded-xl bg-gradient-to-r from-accent/10 to-primary/5 border border-accent/20">
               <FiInfo className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
               <p className="text-xs text-muted-foreground leading-relaxed">{day.tips}</p>
             </div>
@@ -350,16 +357,16 @@ function CostSummaryCard({ cost }: { cost?: CostSummary }) {
   ]
   return (
     <Card className="border-accent/30 overflow-hidden">
-      <div className="h-1 bg-gradient-to-r from-accent via-amber-500 to-accent" />
+      <div className="h-1.5 bg-gradient-to-r from-accent via-amber-500 to-primary" />
       <CardHeader className="pb-2">
         <CardTitle className="text-sm font-serif flex items-center gap-2"><FiDollarSign className="h-4 w-4 text-accent" />Cost Estimate</CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {rows.map((r, i) => (
             <div key={i} className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">{r.label}</span>
-              <span className="font-medium">{r.value ?? 'N/A'}</span>
+              <span className="font-medium font-serif">{r.value ?? 'N/A'}</span>
             </div>
           ))}
           <Separator className="my-2" />
@@ -423,17 +430,19 @@ function NavigationBar({ currentView, setView, savedCount }: { currentView: View
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <button onClick={() => setView('home')} className="flex items-center gap-2 group">
-            <FiGlobe className="h-6 w-6 text-primary group-hover:text-accent transition-colors" />
-            <span className="font-serif text-xl font-bold tracking-wide text-foreground">TravelEase</span>
+          <button onClick={() => setView('home')} className="flex items-center gap-2.5 group">
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
+              <FiCompass className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <span className="font-serif text-xl font-bold tracking-wider text-foreground">TravelEase</span>
           </button>
-          <div className="hidden md:flex items-center gap-6">
-            <button onClick={() => setView('home')} className={cn("text-sm font-medium transition-colors", currentView === 'home' ? 'text-primary' : 'text-muted-foreground hover:text-foreground')}>Home</button>
-            <button onClick={() => setView('trips')} className={cn("text-sm font-medium transition-colors flex items-center gap-1.5", currentView === 'trips' ? 'text-primary' : 'text-muted-foreground hover:text-foreground')}>
+          <div className="hidden md:flex items-center gap-8">
+            <button onClick={() => setView('home')} className={cn("text-sm font-medium transition-colors tracking-wide", currentView === 'home' ? 'text-primary' : 'text-muted-foreground hover:text-foreground')}>Home</button>
+            <button onClick={() => setView('trips')} className={cn("text-sm font-medium transition-colors flex items-center gap-1.5 tracking-wide", currentView === 'trips' ? 'text-primary' : 'text-muted-foreground hover:text-foreground')}>
               My Trips
               {savedCount > 0 && <span className="h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center font-bold">{savedCount}</span>}
             </button>
-            <Button onClick={() => setView('chat')} size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 font-serif tracking-wide">
+            <Button onClick={() => setView('chat')} size="sm" className="bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 font-serif tracking-wider shadow-lg hover:shadow-xl transition-all duration-300 px-6">
               <HiSparkles className="h-4 w-4 mr-1.5" />Plan My Trip
             </Button>
           </div>
@@ -442,6 +451,7 @@ function NavigationBar({ currentView, setView, savedCount }: { currentView: View
           </button>
         </div>
       </div>
+      <div className="h-[2px] bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
       {mobileOpen && (
         <div className="md:hidden border-t border-border/40 bg-background">
           <div className="px-4 py-3 space-y-2">
@@ -450,7 +460,7 @@ function NavigationBar({ currentView, setView, savedCount }: { currentView: View
               My Trips
               {savedCount > 0 && <span className="h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs flex items-center justify-center font-bold">{savedCount}</span>}
             </button>
-            <Button onClick={() => { setView('chat'); setMobileOpen(false) }} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-serif tracking-wide">
+            <Button onClick={() => { setView('chat'); setMobileOpen(false) }} className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 font-serif tracking-wider">
               <HiSparkles className="h-4 w-4 mr-1.5" />Plan My Trip
             </Button>
           </div>
@@ -484,33 +494,61 @@ function HomeView({ setView, setInitialQuery, showSample }: { setView: (v: ViewT
 
   return (
     <div>
-      {/* Hero */}
+      {/* HERO SECTION - Dramatic layered background */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/20" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
+        {/* Multi-layer gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-accent/10 to-secondary/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-amber-900/5 via-transparent to-rose-900/5" />
+        {/* Radial glow */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-primary/5 rounded-full blur-3xl" />
+        {/* Dot pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+
+        {/* Decorative floating travel icons */}
+        <div className="absolute top-16 left-[10%] text-accent/15 animate-pulse">
+          <FiMapPin className="h-10 w-10" />
+        </div>
+        <div className="absolute top-28 right-[12%] text-primary/10 animate-pulse" style={{ animationDelay: '1s' }}>
+          <FiCompass className="h-12 w-12" />
+        </div>
+        <div className="absolute bottom-20 left-[15%] text-accent/10 animate-pulse" style={{ animationDelay: '0.5s' }}>
+          <FiSun className="h-8 w-8" />
+        </div>
+        <div className="absolute top-20 right-[30%] text-primary/8 animate-pulse" style={{ animationDelay: '1.5s' }}>
+          <FiGlobe className="h-7 w-7" />
+        </div>
+        <div className="absolute bottom-32 right-[20%] text-accent/10 animate-pulse" style={{ animationDelay: '2s' }}>
+          <FiNavigation className="h-9 w-9" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-8 shadow-sm">
               <HiSparkles className="h-4 w-4 text-accent" />
-              <span className="text-xs font-medium text-accent">AI-Powered Travel Planning</span>
+              <span className="text-xs font-medium text-accent tracking-wide">AI-Powered Travel Planning</span>
             </div>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-wide leading-tight mb-6">
-              Discover Your Perfect Journey
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-7xl font-bold tracking-wider leading-tight mb-6">
+              Discover Your
+              <span className="block bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">Perfect Journey</span>
             </h1>
-            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto tracking-wide">
               Let our AI travel advisor craft personalized itineraries, find the best hotels, and plan unforgettable experiences tailored to your style and budget.
             </p>
-            <div className="flex flex-col sm:flex-row items-center gap-3 max-w-xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-3 max-w-2xl mx-auto">
               <div className="relative w-full">
-                <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <FiSearch className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   value={heroQuery}
                   onChange={(e) => setHeroQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleHeroSubmit()}
-                  placeholder="Where do you want to go?"
-                  className="pl-12 pr-4 h-12 text-base bg-card border-border/50 shadow-md rounded-xl focus-visible:ring-accent"
+                  placeholder="Where do you want to go? Try 'Bali for 5 days'..."
+                  className="pl-14 pr-6 h-14 text-base bg-card/80 backdrop-blur-sm border-border/30 shadow-xl rounded-2xl focus-visible:ring-accent ring-offset-2"
+                  style={{ boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.06), 0 10px 30px rgba(0,0,0,0.08)' }}
                 />
               </div>
-              <Button onClick={handleHeroSubmit} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-serif tracking-wide h-12 px-8 rounded-xl shadow-md whitespace-nowrap">
+              <Button onClick={handleHeroSubmit} size="lg" className="bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 font-serif tracking-wider h-14 px-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 whitespace-nowrap text-base">
                 <FiArrowRight className="h-5 w-5 mr-2" />Plan My Trip
               </Button>
             </div>
@@ -518,8 +556,34 @@ function HomeView({ setView, setInitialQuery, showSample }: { setView: (v: ViewT
         </div>
       </section>
 
+      {/* STATS / SOCIAL PROOF STRIP */}
+      <section className="relative border-y border-border/30 bg-gradient-to-r from-card via-secondary/30 to-card">
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {[
+              { icon: FiGlobe, value: "50,000+", label: "Trips Planned" },
+              { icon: FiMapPin, value: "120+", label: "Countries" },
+              { icon: FiStar, value: "4.9", label: "Average Rating" },
+              { icon: FiShield, value: "24/7", label: "AI Support" }
+            ].map((stat, i) => {
+              const StatIcon = stat.icon
+              return (
+                <div key={i} className="text-center group">
+                  <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 mb-3 group-hover:scale-110 transition-transform duration-300">
+                    <StatIcon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="font-serif text-2xl font-bold tracking-wide text-foreground">{stat.value}</div>
+                  <div className="text-xs text-muted-foreground tracking-wider uppercase mt-0.5">{stat.label}</div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Filter Chips */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4 mb-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-6">
         <div className="flex items-center justify-center gap-3 flex-wrap">
           {[
             { label: 'All', value: null as string | null, icon: FiCompass },
@@ -533,7 +597,7 @@ function HomeView({ setView, setInitialQuery, showSample }: { setView: (v: ViewT
               <button
                 key={chip.label}
                 onClick={() => setFilter(chip.value)}
-                className={cn("flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border", isActive ? 'bg-primary text-primary-foreground border-primary shadow-md' : 'bg-card text-muted-foreground border-border/50 hover:border-primary/30 hover:text-foreground')}
+                className={cn("flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border", isActive ? 'bg-gradient-to-r from-primary to-accent text-primary-foreground border-primary shadow-lg' : 'bg-card text-muted-foreground border-border/50 hover:border-accent/50 hover:text-foreground hover:shadow-md')}
               >
                 <Icon className="h-4 w-4" />{chip.label}
               </button>
@@ -542,56 +606,150 @@ function HomeView({ setView, setInitialQuery, showSample }: { setView: (v: ViewT
         </div>
       </section>
 
-      {/* Featured Destinations */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div className="flex items-center justify-between mb-6">
+      {/* FEATURED DESTINATIONS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="font-serif text-2xl font-bold tracking-wide">Featured Destinations</h2>
-            <p className="text-muted-foreground text-sm mt-1">Curated places for every type of traveler</p>
+            <h2 className="font-serif text-3xl font-bold tracking-wider">Featured Destinations</h2>
+            <p className="text-muted-foreground text-sm mt-1.5 tracking-wide">Curated places for every type of traveler</p>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredDestinations.map((dest, i) => (
-            <Card key={i} className="group overflow-hidden border-border/30 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => handleExplore(dest.name)}>
-              <div className={cn("h-44 bg-gradient-to-br flex items-end p-5 relative", dest.gradient)}>
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-all" />
-                <div className="relative z-10">
-                  <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm text-xs mb-2">{dest.category}</Badge>
-                  <h3 className="font-serif text-xl font-bold text-white tracking-wide">{dest.name}</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredDestinations.map((dest, i) => {
+            const DestIcon = dest.icon
+            return (
+              <Card key={i} className="group overflow-hidden border-border/20 hover:shadow-2xl transition-all duration-500 cursor-pointer rounded-2xl" onClick={() => handleExplore(dest.name)}>
+                <div className={cn("h-60 bg-gradient-to-br flex flex-col justify-between p-6 relative overflow-hidden", dest.gradient)}>
+                  {/* Gradient overlay layers for depth */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/5" />
+                  <div className="absolute inset-0 bg-black/5 group-hover:bg-black/0 transition-all duration-500" />
+                  {/* Shine effect on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/0 to-white/0 group-hover:via-white/10 group-hover:to-white/5 transition-all duration-700" />
+                  {/* Decorative icon */}
+                  <div className="relative z-10 self-end">
+                    <div className="h-10 w-10 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform duration-300">
+                      <DestIcon className="h-5 w-5 text-white" />
+                    </div>
+                  </div>
+                  <div className="relative z-10">
+                    <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm text-xs mb-2 font-serif tracking-wide">{dest.category}</Badge>
+                    <h3 className="font-serif text-2xl font-bold text-white tracking-wider">{dest.name}</h3>
+                    <p className="text-white/70 text-xs mt-1 italic tracking-wide">{dest.tagline}</p>
+                  </div>
                 </div>
-                <div className="absolute top-4 right-4 z-10">
-                  <Badge className="bg-white/90 text-foreground border-0 font-serif font-bold shadow-sm">{dest.price}</Badge>
+                <CardFooter className="p-5 flex items-center justify-between bg-gradient-to-r from-card to-secondary/20">
+                  <span className="text-sm text-muted-foreground flex items-center gap-1.5 font-serif"><FiMapPin className="h-3.5 w-3.5 text-accent" />{dest.name.split(', ')[1] ?? dest.name}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="font-serif font-bold text-primary">{dest.price}</span>
+                    <span className="text-sm font-medium text-accent flex items-center gap-1 group-hover:gap-2 transition-all">Explore <FiChevronRight className="h-4 w-4" /></span>
+                  </div>
+                </CardFooter>
+              </Card>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-secondary/20 via-secondary/40 to-secondary/20 border-y border-border/20">
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(45deg, currentColor 25%, transparent 25%, transparent 75%, currentColor 75%), linear-gradient(45deg, currentColor 25%, transparent 25%, transparent 75%, currentColor 75%)', backgroundSize: '20px 20px', backgroundPosition: '0 0, 10px 10px' }} />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center mb-14">
+            <h2 className="font-serif text-3xl font-bold tracking-wider mb-3">How It Works</h2>
+            <p className="text-muted-foreground text-sm tracking-wide max-w-xl mx-auto">Three simple steps to your dream vacation</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              { step: 1, title: "Tell Us Your Dream", icon: FiMessageSquare, desc: "Share your destination, dates, budget, and travel style with our AI advisor." },
+              { step: 2, title: "AI Crafts Your Plan", icon: HiSparkles, desc: "Our AI advisor builds a personalized day-by-day itinerary with hotels, tours, and tips." },
+              { step: 3, title: "Explore & Refine", icon: FiCompass, desc: "Refine your plan, save it, and start your adventure with confidence." }
+            ].map((s) => {
+              const StepIcon = s.icon
+              return (
+                <div key={s.step} className="text-center group">
+                  <div className="relative inline-flex mb-6">
+                    <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-border/30 flex items-center justify-center group-hover:scale-110 group-hover:shadow-xl transition-all duration-300">
+                      <StepIcon className="h-8 w-8 text-primary" />
+                    </div>
+                    <div className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center text-primary-foreground text-xs font-bold shadow-lg">
+                      {s.step}
+                    </div>
+                  </div>
+                  <h3 className="font-serif text-lg font-bold tracking-wider mb-2">{s.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto tracking-wide">{s.desc}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* TRENDING DEALS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center">
+            <FiTrendingUp className="h-5 w-5 text-accent" />
+          </div>
+          <div>
+            <h2 className="font-serif text-3xl font-bold tracking-wider">Trending Deals</h2>
+            <p className="text-muted-foreground text-xs tracking-wide mt-0.5">Limited-time offers on popular destinations</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {TRENDING_DEALS.map((deal, i) => (
+            <Card key={i} className="overflow-hidden border-border/20 hover:shadow-2xl transition-all duration-500 cursor-pointer rounded-2xl group" onClick={() => handleExplore(deal.destination)}>
+              <div className={cn("h-28 bg-gradient-to-br relative overflow-hidden", deal.gradient)}>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-black/5 group-hover:bg-black/0 transition-all" />
+                <div className="absolute top-3 right-3 z-10">
+                  <Badge className="bg-white text-foreground border-0 font-serif font-bold shadow-lg text-sm px-3 py-1">{deal.discount}</Badge>
+                </div>
+                <div className="absolute bottom-3 left-4 z-10">
+                  <h3 className="font-serif text-xl font-bold text-white tracking-wider">{deal.destination}</h3>
                 </div>
               </div>
-              <CardFooter className="p-4 flex items-center justify-between">
-                <span className="text-sm text-muted-foreground flex items-center gap-1.5"><FiMapPin className="h-3.5 w-3.5" />{dest.name.split(', ')[1] ?? dest.name}</span>
-                <span className="text-sm font-medium text-primary flex items-center gap-1 group-hover:gap-2 transition-all">Explore <FiChevronRight className="h-4 w-4" /></span>
-              </CardFooter>
+              <CardContent className="p-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="line-through text-muted-foreground text-sm">{deal.original}</span>
+                  <span className="font-serif font-bold text-primary text-xl">{deal.now}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground flex items-center gap-1.5"><FiCalendar className="h-3.5 w-3.5" />{deal.days} days</span>
+                  <span className="text-xs font-medium text-accent flex items-center gap-1 group-hover:gap-2 transition-all">Book now <FiArrowRight className="h-3.5 w-3.5" /></span>
+                </div>
+              </CardContent>
             </Card>
           ))}
         </div>
       </section>
 
-      {/* Trending Deals */}
-      <section className="bg-secondary/30 border-y border-border/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex items-center gap-2 mb-6">
-            <FiTrendingUp className="h-5 w-5 text-accent" />
-            <h2 className="font-serif text-2xl font-bold tracking-wide">Trending Deals</h2>
+      {/* TESTIMONIALS */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-card/50 via-secondary/30 to-card/50 border-y border-border/20">
+        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center mb-14">
+            <h2 className="font-serif text-3xl font-bold tracking-wider mb-3">Loved by Travelers</h2>
+            <p className="text-muted-foreground text-sm tracking-wide max-w-xl mx-auto">See what our community has to say about their experiences</p>
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x">
-            {TRENDING_DEALS.map((deal, i) => (
-              <Card key={i} className="min-w-[260px] snap-start border-border/30 hover:shadow-lg transition-all duration-300 flex-shrink-0 cursor-pointer" onClick={() => handleExplore(deal.destination)}>
-                <CardContent className="p-5">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-serif font-bold text-lg">{deal.destination}</h3>
-                    <Badge className="bg-accent/10 text-accent border-accent/20 font-bold">{deal.discount}</Badge>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {TESTIMONIALS.map((t, i) => (
+              <Card key={i} className="border-border/20 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                <CardContent className="p-7">
+                  <div className="flex items-center gap-0.5 mb-4">
+                    {Array.from({ length: t.rating }).map((_, si) => (
+                      <FiStar key={si} className="h-4 w-4 fill-amber-500 text-amber-500" />
+                    ))}
                   </div>
-                  <div className="flex items-center gap-2 text-sm mb-2">
-                    <span className="line-through text-muted-foreground">{deal.original}</span>
-                    <span className="font-serif font-bold text-primary text-lg">{deal.now}</span>
+                  <p className="text-sm text-foreground leading-relaxed italic mb-6 min-h-[80px]">&ldquo;{t.quote}&rdquo;</p>
+                  <div className="flex items-center gap-3 pt-4 border-t border-border/30">
+                    <div className={cn("h-10 w-10 rounded-full flex items-center justify-center text-white text-sm font-bold", t.color)}>
+                      {t.initials}
+                    </div>
+                    <div>
+                      <div className="font-serif font-semibold text-sm tracking-wide">{t.name}</div>
+                      <div className="text-xs text-muted-foreground flex items-center gap-1"><FiMapPin className="h-3 w-3" />{t.location}</div>
+                    </div>
                   </div>
-                  <span className="text-xs text-muted-foreground flex items-center gap-1"><FiCalendar className="h-3 w-3" />{deal.days} days</span>
                 </CardContent>
               </Card>
             ))}
@@ -599,19 +757,71 @@ function HomeView({ setView, setInitialQuery, showSample }: { setView: (v: ViewT
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <FiGlobe className="h-5 w-5 text-primary" />
-            <span className="font-serif font-bold tracking-wide">TravelEase</span>
+      {/* FOOTER */}
+      <footer className="bg-gradient-to-b from-card to-secondary/30 border-t border-border/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            {/* Brand Column */}
+            <div className="md:col-span-1">
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md">
+                  <FiCompass className="h-5 w-5 text-primary-foreground" />
+                </div>
+                <span className="font-serif text-xl font-bold tracking-wider">TravelEase</span>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed tracking-wide mb-5">AI-powered travel planning that crafts your perfect journey, every time.</p>
+              <div className="flex items-center gap-3">
+                {[FiTwitter, FiInstagram, FiYoutube].map((SocialIcon, si) => (
+                  <button key={si} className="h-9 w-9 rounded-xl bg-secondary/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300">
+                    <SocialIcon className="h-4 w-4" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h4 className="font-serif font-bold text-sm tracking-wider uppercase mb-4 text-foreground">Company</h4>
+              <div className="space-y-2.5">
+                {['About Us', 'Careers', 'Blog', 'Press'].map((item) => (
+                  <button key={item} className="block text-sm text-muted-foreground hover:text-foreground transition-colors tracking-wide">{item}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Destinations */}
+            <div>
+              <h4 className="font-serif font-bold text-sm tracking-wider uppercase mb-4 text-foreground">Destinations</h4>
+              <div className="space-y-2.5">
+                {['Asia', 'Europe', 'Americas', 'Africa', 'Oceania'].map((item) => (
+                  <button key={item} className="block text-sm text-muted-foreground hover:text-foreground transition-colors tracking-wide">{item}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Newsletter */}
+            <div>
+              <h4 className="font-serif font-bold text-sm tracking-wider uppercase mb-4 text-foreground">Stay Inspired</h4>
+              <p className="text-sm text-muted-foreground mb-4 tracking-wide">Get travel tips and deals straight to your inbox.</p>
+              <div className="flex gap-2">
+                <Input placeholder="Your email" className="bg-background/50 border-border/30 rounded-xl text-sm h-10" />
+                <Button size="sm" className="bg-gradient-to-r from-primary to-accent text-primary-foreground h-10 px-4 rounded-xl">
+                  <FiMail className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-6">
-            <button onClick={() => setView('home')} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Home</button>
-            <button onClick={() => setView('chat')} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Plan a Trip</button>
-            <button onClick={() => setView('trips')} className="text-sm text-muted-foreground hover:text-foreground transition-colors">My Trips</button>
+
+          <Separator className="mb-6 bg-border/30" />
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-muted-foreground tracking-wide">TravelEase AI Travel Platform. All rights reserved.</p>
+            <div className="flex items-center gap-6">
+              <button className="text-xs text-muted-foreground hover:text-foreground transition-colors tracking-wide">Privacy</button>
+              <button className="text-xs text-muted-foreground hover:text-foreground transition-colors tracking-wide">Terms</button>
+              <button className="text-xs text-muted-foreground hover:text-foreground transition-colors tracking-wide">Support</button>
+            </div>
           </div>
-          <p className="text-xs text-muted-foreground">TravelEase AI Travel Platform</p>
         </div>
       </footer>
     </div>
@@ -769,27 +979,27 @@ function ChatView({
   const latestData = [...messages].reverse().find(m => m.data)?.data
 
   return (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-4rem)]">
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-4.5rem)]">
       {/* Chat Panel */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Chat Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border/40 bg-card/50">
+        {/* Chat Header with warm gradient */}
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-border/40 bg-gradient-to-r from-primary/5 via-accent/5 to-card/80 backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-full bg-primary flex items-center justify-center">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md">
               <FiCompass className="h-5 w-5 text-primary-foreground" />
             </div>
             <div>
-              <h3 className="font-serif font-semibold text-sm tracking-wide">Travel Advisor</h3>
-              <span className="text-xs text-muted-foreground flex items-center gap-1">
+              <h3 className="font-serif font-semibold text-sm tracking-wider">Travel Advisor</h3>
+              <span className="text-xs text-muted-foreground flex items-center gap-1.5">
                 {isLoading ? (
-                  <><span className="h-2 w-2 rounded-full bg-accent animate-pulse inline-block" /> Planning...</>
+                  <><span className="h-2 w-2 rounded-full bg-accent animate-pulse inline-block" /> Crafting your itinerary...</>
                 ) : (
-                  <><span className="h-2 w-2 rounded-full bg-green-500 inline-block" /> Online</>
+                  <><span className="h-2 w-2 rounded-full bg-green-500 inline-block" /> Ready to explore</>
                 )}
               </span>
             </div>
           </div>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden p-2 rounded-lg hover:bg-secondary transition-colors">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden p-2 rounded-xl hover:bg-secondary transition-colors">
             <FiMap className="h-5 w-5" />
           </button>
         </div>
@@ -799,7 +1009,7 @@ function ChatView({
           <div className="p-4 space-y-4 max-w-3xl mx-auto w-full">
             {messages.map((msg) => (
               <div key={msg.id} className={cn("flex", msg.role === 'user' ? 'justify-end' : 'justify-start')}>
-                <div className={cn("max-w-[85%] rounded-2xl px-4 py-3", msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-md' : 'bg-card border border-border/50 rounded-bl-md shadow-sm')}>
+                <div className={cn("max-w-[85%] rounded-2xl px-5 py-3.5", msg.role === 'user' ? 'bg-gradient-to-br from-primary to-primary/90 text-primary-foreground rounded-br-md shadow-md' : 'bg-card border border-border/50 rounded-bl-md shadow-sm')}>
                   <div className="text-sm leading-relaxed">{renderMarkdown(msg.content)}</div>
                   {msg.data && <RichResponseCard data={msg.data} />}
                   <div className={cn("text-[10px] mt-2 opacity-60", msg.role === 'user' ? 'text-right' : 'text-left')}>
@@ -817,7 +1027,7 @@ function ChatView({
             )}
             {errorMsg && (
               <div className="flex justify-center">
-                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-destructive/10 border border-destructive/20 text-sm">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-destructive/10 border border-destructive/20 text-sm">
                   <FiAlertCircle className="h-4 w-4 text-destructive flex-shrink-0" />
                   <span className="text-destructive text-xs">{errorMsg}</span>
                   <button onClick={handleRetry} className="text-xs font-medium text-destructive hover:underline flex items-center gap-1">
@@ -830,66 +1040,73 @@ function ChatView({
           </div>
         </ScrollArea>
 
-        {/* Quick Prompts */}
+        {/* Quick Prompts with travel tags */}
         {messages.length <= 1 && !isLoading && (
-          <div className="px-4 pb-2">
-            <div className="flex flex-wrap gap-2 max-w-3xl mx-auto">
-              {QUICK_PROMPTS.map((prompt, i) => (
-                <button key={i} onClick={() => handleSend(prompt)} className="text-xs px-3 py-1.5 rounded-full bg-secondary border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all">
-                  {prompt}
-                </button>
-              ))}
+          <div className="px-4 pb-3">
+            <p className="text-xs text-muted-foreground text-center mb-2 tracking-wide font-serif">Try one of these to get started:</p>
+            <div className="flex flex-wrap gap-2 max-w-3xl mx-auto justify-center">
+              {QUICK_PROMPTS.map((prompt, i) => {
+                const PromptIcon = prompt.icon
+                return (
+                  <button key={i} onClick={() => handleSend(prompt.text)} className="flex items-center gap-2 text-xs px-4 py-2 rounded-full bg-gradient-to-r from-card to-secondary/50 border border-border/50 text-muted-foreground hover:text-foreground hover:border-accent/50 hover:shadow-md transition-all duration-300 font-serif tracking-wide">
+                    <PromptIcon className="h-3.5 w-3.5 text-accent" />
+                    {prompt.text}
+                  </button>
+                )
+              })}
             </div>
           </div>
         )}
 
         {/* Input */}
-        <div className="p-4 border-t border-border/40 bg-card/30">
-          <div className="flex items-center gap-2 max-w-3xl mx-auto">
+        <div className="p-4 border-t border-border/40 bg-gradient-to-r from-card/30 via-secondary/10 to-card/30">
+          <div className="flex items-center gap-3 max-w-3xl mx-auto">
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) handleSend() }}
               placeholder="Tell me about your dream trip..."
               disabled={isLoading}
-              className="flex-1 h-11 bg-background border-border/50 rounded-xl focus-visible:ring-accent"
+              className="flex-1 h-12 bg-background/80 border-border/40 rounded-2xl focus-visible:ring-accent text-sm pl-5"
             />
-            <Button onClick={() => handleSend()} disabled={isLoading || !inputValue.trim()} size="icon" className="h-11 w-11 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button onClick={() => handleSend()} disabled={isLoading || !inputValue.trim()} size="icon" className="h-12 w-12 rounded-2xl bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 shadow-md">
               <FiSend className="h-5 w-5" />
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Itinerary Sidebar - Desktop */}
-      <div className={cn("border-l border-border/40 bg-card/30 flex-shrink-0 overflow-hidden", sidebarOpen ? 'fixed inset-0 z-40 lg:relative lg:w-[360px]' : 'hidden lg:block lg:w-[360px]')}>
+      {/* Itinerary Sidebar */}
+      <div className={cn("border-l border-border/40 flex-shrink-0 overflow-hidden", sidebarOpen ? 'fixed inset-0 z-40 lg:relative lg:w-[380px]' : 'hidden lg:block lg:w-[380px]')}>
         {sidebarOpen && <div className="fixed inset-0 bg-black/30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
-        <div className={cn("h-full flex flex-col bg-card/50", sidebarOpen ? 'relative z-50 w-[85vw] max-w-[360px] ml-auto h-screen' : '')}>
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border/40">
-            <h3 className="font-serif font-semibold text-sm tracking-wide flex items-center gap-2"><FiBookmark className="h-4 w-4 text-accent" />Trip Summary</h3>
+        <div className={cn("h-full flex flex-col bg-gradient-to-b from-card/90 via-secondary/20 to-card/80", sidebarOpen ? 'relative z-50 w-[85vw] max-w-[380px] ml-auto h-screen' : '')}>
+          <div className="flex items-center justify-between px-5 py-3.5 border-b border-border/40 bg-gradient-to-r from-accent/5 to-primary/5">
+            <h3 className="font-serif font-semibold text-sm tracking-wider flex items-center gap-2"><FiBookmark className="h-4 w-4 text-accent" />Trip Summary</h3>
             <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1 rounded-lg hover:bg-secondary"><FiX className="h-4 w-4" /></button>
           </div>
           <ScrollArea className="flex-1">
-            <div className="p-4 space-y-4">
+            <div className="p-5 space-y-5">
               {latestData ? (
                 <>
                   {latestData.destination && (
-                    <div className="flex items-center gap-2 p-3 rounded-lg bg-primary/5 border border-primary/10">
-                      <FiMapPin className="h-5 w-5 text-primary flex-shrink-0" />
+                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-primary/10 via-accent/5 to-primary/5 border border-primary/10">
+                      <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-md flex-shrink-0">
+                        <FiMapPin className="h-5 w-5 text-primary-foreground" />
+                      </div>
                       <div>
-                        <span className="text-xs text-muted-foreground">Destination</span>
-                        <h4 className="font-serif font-bold tracking-wide">{latestData.destination}</h4>
+                        <span className="text-xs text-muted-foreground tracking-wide">Destination</span>
+                        <h4 className="font-serif font-bold tracking-wider text-lg">{latestData.destination}</h4>
                       </div>
                     </div>
                   )}
                   {Array.isArray(latestData.itinerary) && latestData.itinerary.length > 0 && (
                     <div>
-                      <h4 className="font-serif font-semibold text-xs tracking-wide text-muted-foreground mb-2 uppercase">Overview</h4>
-                      <div className="space-y-1.5">
+                      <h4 className="font-serif font-semibold text-xs tracking-wider text-muted-foreground mb-3 uppercase">Day Overview</h4>
+                      <div className="space-y-2">
                         {latestData.itinerary.map((d, i) => (
-                          <div key={i} className="flex items-center gap-2 text-sm">
-                            <span className="h-6 w-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center flex-shrink-0">{d?.day ?? i + 1}</span>
-                            <span className="truncate">{d?.title ?? `Day ${d?.day ?? i + 1}`}</span>
+                          <div key={i} className="flex items-center gap-3 text-sm p-2.5 rounded-xl hover:bg-secondary/30 transition-colors">
+                            <span className="h-7 w-7 rounded-full bg-gradient-to-br from-primary/20 to-accent/10 text-primary text-xs font-bold flex items-center justify-center flex-shrink-0">{d?.day ?? i + 1}</span>
+                            <span className="truncate font-serif tracking-wide">{d?.title ?? `Day ${d?.day ?? i + 1}`}</span>
                           </div>
                         ))}
                       </div>
@@ -897,11 +1114,14 @@ function ChatView({
                   )}
                   {Array.isArray(latestData.hotels) && latestData.hotels.length > 0 && (
                     <div>
-                      <h4 className="font-serif font-semibold text-xs tracking-wide text-muted-foreground mb-2 uppercase">Hotels</h4>
-                      <div className="space-y-1.5">
+                      <h4 className="font-serif font-semibold text-xs tracking-wider text-muted-foreground mb-3 uppercase">Recommended Hotels</h4>
+                      <div className="space-y-2">
                         {latestData.hotels.map((h, i) => (
-                          <div key={i} className="flex items-center justify-between text-sm p-2 rounded-lg bg-background/50">
-                            <span className="truncate font-medium">{h?.name ?? 'Hotel'}</span>
+                          <div key={i} className="flex items-center justify-between text-sm p-3 rounded-xl bg-background/50 border border-border/20">
+                            <div className="flex items-center gap-2 min-w-0">
+                              <BiHotel className="h-4 w-4 text-accent flex-shrink-0" />
+                              <span className="truncate font-serif tracking-wide">{h?.name ?? 'Hotel'}</span>
+                            </div>
                             <span className="text-xs text-primary font-serif font-bold flex-shrink-0 ml-2">{h?.price_per_night ?? ''}</span>
                           </div>
                         ))}
@@ -909,20 +1129,29 @@ function ChatView({
                     </div>
                   )}
                   {latestData.cost_summary && (
-                    <div className="p-3 rounded-lg bg-accent/10 border border-accent/20">
-                      <span className="text-xs text-muted-foreground">Estimated Total</span>
-                      <div className="font-serif font-bold text-lg text-primary">{latestData.cost_summary?.total ?? 'N/A'}</div>
+                    <div className="p-4 rounded-2xl bg-gradient-to-r from-accent/10 to-primary/5 border border-accent/20">
+                      <span className="text-xs text-muted-foreground tracking-wide">Estimated Total</span>
+                      <div className="font-serif font-bold text-xl text-primary tracking-wide">{latestData.cost_summary?.total ?? 'N/A'}</div>
                     </div>
                   )}
-                  <Button onClick={() => onSaveItinerary(latestData)} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-serif tracking-wide">
-                    <FiBookmark className="h-4 w-4 mr-2" />Save Itinerary
+                  <Button onClick={() => onSaveItinerary(latestData)} className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 font-serif tracking-wider rounded-2xl h-12 shadow-md">
+                    <FiBookmark className="h-4 w-4 mr-2" />Save This Itinerary
                   </Button>
                 </>
               ) : (
-                <div className="text-center py-12">
-                  <FiMap className="h-12 w-12 mx-auto text-muted-foreground/30 mb-4" />
-                  <h4 className="font-serif font-semibold text-sm tracking-wide mb-1">No Itinerary Yet</h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Start a conversation to build your personalized travel plan.</p>
+                <div className="text-center py-16">
+                  {/* Decorative compass rose */}
+                  <div className="relative inline-flex mb-6">
+                    <div className="h-24 w-24 rounded-full bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-dashed border-border/30 flex items-center justify-center">
+                      <FiCompass className="h-10 w-10 text-muted-foreground/20" />
+                    </div>
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-3 w-3 rounded-full bg-accent/20" />
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-3 w-3 rounded-full bg-primary/20" />
+                    <div className="absolute top-1/2 -translate-y-1/2 -left-1 h-3 w-3 rounded-full bg-accent/20" />
+                    <div className="absolute top-1/2 -translate-y-1/2 -right-1 h-3 w-3 rounded-full bg-primary/20" />
+                  </div>
+                  <h4 className="font-serif font-semibold text-sm tracking-wider mb-2">No Itinerary Yet</h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed tracking-wide max-w-[200px] mx-auto">Start a conversation to build your personalized travel plan.</p>
                 </div>
               )}
             </div>
@@ -971,143 +1200,181 @@ function TripsView({
   })
 
   const gradients = [
-    'from-amber-800 via-amber-700 to-yellow-600',
-    'from-blue-800 via-blue-600 to-cyan-500',
-    'from-green-800 via-emerald-600 to-teal-500',
-    'from-indigo-800 via-violet-600 to-purple-500',
-    'from-orange-800 via-red-700 to-amber-600',
-    'from-slate-700 via-sky-600 to-blue-400'
+    'from-pink-900 via-rose-700 to-amber-500',
+    'from-blue-900 via-blue-500 to-sky-300',
+    'from-emerald-900 via-green-600 to-teal-400',
+    'from-violet-900 via-purple-600 to-indigo-400',
+    'from-orange-900 via-red-700 to-amber-500',
+    'from-slate-800 via-blue-600 to-sky-200'
   ]
 
+  const uniqueDestinations = new Set(displayTrips.map(t => t.destination?.split(',')[0] ?? '').filter(Boolean))
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="font-serif text-3xl font-bold tracking-wide mb-2">My Trips</h1>
-        <p className="text-muted-foreground text-sm">Your saved itineraries and travel plans</p>
-      </div>
-
-      {/* Search & Filter */}
-      <div className="flex flex-col sm:flex-row items-center gap-3 mb-6">
-        <div className="relative w-full sm:max-w-sm">
-          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search destinations..." className="pl-10 bg-card border-border/50" />
+    <div>
+      {/* Decorative header */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/20 border-b border-border/20">
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+        <div className="absolute top-6 right-[10%] text-accent/10">
+          <FiGlobe className="h-16 w-16" />
         </div>
-        <div className="flex items-center gap-2">
-          {['Solo', 'Budget', 'Luxury'].map(type => (
-            <button key={type} onClick={() => setFilterType(filterType === type ? null : type)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border transition-all", filterType === type ? 'bg-primary text-primary-foreground border-primary' : 'bg-card text-muted-foreground border-border/50 hover:border-primary/30')}>
-              {type}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {filtered.length === 0 ? (
-        <div className="text-center py-20">
-          <div className="h-20 w-20 rounded-2xl bg-secondary/50 flex items-center justify-center mx-auto mb-6">
-            <FiCompass className="h-10 w-10 text-muted-foreground/30" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <h1 className="font-serif text-3xl font-bold tracking-wider mb-2">My Trips</h1>
+          <p className="text-muted-foreground text-sm tracking-wide">Your saved itineraries and travel plans</p>
+          {/* Fun stats */}
+          <div className="flex items-center gap-6 mt-5">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/80 border border-border/20 shadow-sm">
+              <FiBookmark className="h-4 w-4 text-accent" />
+              <span className="font-serif font-bold text-sm">{displayTrips.length}</span>
+              <span className="text-xs text-muted-foreground">trips saved</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/80 border border-border/20 shadow-sm">
+              <FiGlobe className="h-4 w-4 text-primary" />
+              <span className="font-serif font-bold text-sm">{uniqueDestinations.size}</span>
+              <span className="text-xs text-muted-foreground">destinations</span>
+            </div>
           </div>
-          <h3 className="font-serif text-xl font-semibold tracking-wide mb-2">No Saved Trips Yet</h3>
-          <p className="text-muted-foreground text-sm mb-6 max-w-md mx-auto">Start planning your next adventure and save your itineraries here for easy access.</p>
-          <Button onClick={() => onResume('')} className="bg-primary text-primary-foreground hover:bg-primary/90 font-serif tracking-wide">
-            <HiSparkles className="h-4 w-4 mr-2" />Start Planning
-          </Button>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((trip, i) => (
-            <Card key={trip.id} className="overflow-hidden border-border/30 hover:shadow-xl transition-all duration-300 group">
-              <div className={cn("h-36 bg-gradient-to-br flex items-end p-4 relative", gradients[i % gradients.length])}>
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-all" />
-                <div className="relative z-10">
-                  <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm text-xs mb-2">{trip.travelerType ?? 'Trip'}</Badge>
-                  <h3 className="font-serif text-lg font-bold text-white tracking-wide">{trip.destination ?? 'Untitled Trip'}</h3>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Search & Filter */}
+        <div className="flex flex-col sm:flex-row items-center gap-3 mb-8">
+          <div className="relative w-full sm:max-w-sm">
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search destinations..." className="pl-11 bg-card border-border/30 rounded-xl h-11" />
+          </div>
+          <div className="flex items-center gap-2">
+            {['Solo', 'Budget', 'Luxury'].map(type => (
+              <button key={type} onClick={() => setFilterType(filterType === type ? null : type)} className={cn("px-4 py-2 rounded-full text-xs font-medium border transition-all duration-300 font-serif tracking-wide", filterType === type ? 'bg-gradient-to-r from-primary to-accent text-primary-foreground border-primary shadow-md' : 'bg-card text-muted-foreground border-border/50 hover:border-accent/50')}>
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {filtered.length === 0 ? (
+          <div className="text-center py-24">
+            {/* Beautiful empty state with layered shapes */}
+            <div className="relative inline-flex mb-8">
+              <div className="h-32 w-32 rounded-3xl bg-gradient-to-br from-primary/10 to-accent/5 border-2 border-dashed border-border/30 flex items-center justify-center rotate-3">
+                <div className="h-24 w-24 rounded-2xl bg-gradient-to-br from-accent/10 to-primary/5 border border-border/20 flex items-center justify-center -rotate-6">
+                  <FiCompass className="h-12 w-12 text-muted-foreground/20" />
                 </div>
               </div>
-              <CardContent className="p-4 space-y-3">
-                <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1"><FiCalendar className="h-3 w-3" />{trip.dateRange ?? 'No date'}</span>
-                  <span className="flex items-center gap-1"><FiDollarSign className="h-3 w-3" />{trip.budget ?? 'N/A'}</span>
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  Saved {trip.savedAt ? new Date(trip.savedAt).toLocaleDateString() : 'recently'}
-                </div>
-              </CardContent>
-              <CardFooter className="p-4 pt-0 flex items-center gap-2">
-                <Button size="sm" variant="outline" onClick={() => setDetailTrip(trip)} className="flex-1 text-xs">
-                  <FiSearch className="h-3 w-3 mr-1" />Details
-                </Button>
-                <Button size="sm" variant="outline" onClick={() => onResume(trip.destination)} className="flex-1 text-xs">
-                  <FiMessageSquare className="h-3 w-3 mr-1" />Resume
-                </Button>
-                {deleteConfirm === trip.id ? (
-                  <div className="flex items-center gap-1">
-                    <Button size="sm" variant="destructive" onClick={() => { onDelete(trip.id); setDeleteConfirm(null) }} className="text-xs px-2">
-                      <FiCheck className="h-3 w-3" />
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={() => setDeleteConfirm(null)} className="text-xs px-2">
-                      <FiX className="h-3 w-3" />
-                    </Button>
-                  </div>
-                ) : (
-                  <Button size="sm" variant="ghost" onClick={() => setDeleteConfirm(trip.id)} className="text-xs px-2 text-muted-foreground hover:text-destructive">
-                    <FiTrash2 className="h-3 w-3" />
-                  </Button>
-                )}
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      {/* Detail Dialog */}
-      <Dialog open={!!detailTrip} onOpenChange={(open) => { if (!open) setDetailTrip(null) }}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-background">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-xl tracking-wide flex items-center gap-2">
-              <FiMapPin className="h-5 w-5 text-primary" />{detailTrip?.destination ?? 'Trip Details'}
-            </DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">
-              {detailTrip?.travelerType ?? ''} trip{detailTrip?.budget ? ` - ${detailTrip.budget}` : ''}
-            </DialogDescription>
-          </DialogHeader>
-          {detailTrip?.data && (
-            <div className="mt-4">
-              <Tabs defaultValue="itinerary">
-                <TabsList className="w-full">
-                  <TabsTrigger value="itinerary" className="flex-1">Itinerary</TabsTrigger>
-                  <TabsTrigger value="hotels" className="flex-1">Hotels</TabsTrigger>
-                  <TabsTrigger value="tours" className="flex-1">Tours</TabsTrigger>
-                  <TabsTrigger value="cost" className="flex-1">Cost</TabsTrigger>
-                </TabsList>
-                <TabsContent value="itinerary" className="mt-4 space-y-3">
-                  {Array.isArray(detailTrip.data.itinerary) && detailTrip.data.itinerary.length > 0 ? (
-                    detailTrip.data.itinerary.map((d, i) => <ItineraryDayBlock key={i} day={d} />)
-                  ) : (
-                    <p className="text-sm text-muted-foreground text-center py-8">No itinerary data available</p>
-                  )}
-                </TabsContent>
-                <TabsContent value="hotels" className="mt-4 space-y-3">
-                  {Array.isArray(detailTrip.data.hotels) && detailTrip.data.hotels.length > 0 ? (
-                    detailTrip.data.hotels.map((h, i) => <HotelCardComponent key={i} hotel={h} />)
-                  ) : (
-                    <p className="text-sm text-muted-foreground text-center py-8">No hotel data available</p>
-                  )}
-                </TabsContent>
-                <TabsContent value="tours" className="mt-4 space-y-3">
-                  {Array.isArray(detailTrip.data.tours) && detailTrip.data.tours.length > 0 ? (
-                    detailTrip.data.tours.map((t, i) => <TourCardComponent key={i} tour={t} />)
-                  ) : (
-                    <p className="text-sm text-muted-foreground text-center py-8">No tour data available</p>
-                  )}
-                </TabsContent>
-                <TabsContent value="cost" className="mt-4">
-                  <CostSummaryCard cost={detailTrip.data.cost_summary} />
-                </TabsContent>
-              </Tabs>
+              <div className="absolute -top-2 -right-2">
+                <FiMapPin className="h-6 w-6 text-accent/30" />
+              </div>
+              <div className="absolute -bottom-3 -left-3">
+                <FiSun className="h-5 w-5 text-primary/20" />
+              </div>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+            <h3 className="font-serif text-2xl font-bold tracking-wider mb-3">No Saved Trips Yet</h3>
+            <p className="text-muted-foreground text-sm mb-8 max-w-md mx-auto tracking-wide leading-relaxed">Start planning your next adventure and save your itineraries here for easy access.</p>
+            <Button onClick={() => onResume('')} size="lg" className="bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 font-serif tracking-wider rounded-2xl h-12 px-8 shadow-lg">
+              <HiSparkles className="h-5 w-5 mr-2" />Start Planning
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filtered.map((trip, i) => (
+              <Card key={trip.id} className="overflow-hidden border-border/20 hover:shadow-2xl transition-all duration-500 group rounded-2xl">
+                <div className={cn("h-44 bg-gradient-to-br flex flex-col justify-between p-5 relative overflow-hidden", gradients[i % gradients.length])}>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/5" />
+                  <div className="absolute inset-0 bg-black/5 group-hover:bg-black/0 transition-all duration-500" />
+                  <div className="relative z-10 self-end">
+                    <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm text-xs font-serif tracking-wide">{trip.travelerType ?? 'Trip'}</Badge>
+                  </div>
+                  <div className="relative z-10">
+                    <h3 className="font-serif text-xl font-bold text-white tracking-wider">{trip.destination ?? 'Untitled Trip'}</h3>
+                  </div>
+                </div>
+                <CardContent className="p-5 space-y-3">
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1.5"><FiCalendar className="h-3.5 w-3.5 text-accent" />{trip.dateRange ?? 'No date'}</span>
+                    <span className="flex items-center gap-1.5"><FiDollarSign className="h-3.5 w-3.5 text-primary" />{trip.budget ?? 'N/A'}</span>
+                  </div>
+                  <div className="text-xs text-muted-foreground tracking-wide">
+                    Saved {trip.savedAt ? new Date(trip.savedAt).toLocaleDateString() : 'recently'}
+                  </div>
+                </CardContent>
+                <CardFooter className="p-5 pt-0 flex items-center gap-2">
+                  <Button size="sm" variant="outline" onClick={() => setDetailTrip(trip)} className="flex-1 text-xs rounded-xl font-serif tracking-wide">
+                    <FiSearch className="h-3 w-3 mr-1" />Details
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={() => onResume(trip.destination)} className="flex-1 text-xs rounded-xl font-serif tracking-wide">
+                    <FiMessageSquare className="h-3 w-3 mr-1" />Resume
+                  </Button>
+                  {deleteConfirm === trip.id ? (
+                    <div className="flex items-center gap-1">
+                      <Button size="sm" variant="destructive" onClick={() => { onDelete(trip.id); setDeleteConfirm(null) }} className="text-xs px-2 rounded-xl">
+                        <FiCheck className="h-3 w-3" />
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => setDeleteConfirm(null)} className="text-xs px-2 rounded-xl">
+                        <FiX className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button size="sm" variant="ghost" onClick={() => setDeleteConfirm(trip.id)} className="text-xs px-2 text-muted-foreground hover:text-destructive">
+                      <FiTrash2 className="h-3 w-3" />
+                    </Button>
+                  )}
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
+
+        {/* Detail Dialog */}
+        <Dialog open={!!detailTrip} onOpenChange={(open) => { if (!open) setDetailTrip(null) }}>
+          <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-background rounded-2xl">
+            <DialogHeader>
+              <DialogTitle className="font-serif text-xl tracking-wider flex items-center gap-2">
+                <FiMapPin className="h-5 w-5 text-primary" />{detailTrip?.destination ?? 'Trip Details'}
+              </DialogTitle>
+              <DialogDescription className="text-sm text-muted-foreground tracking-wide">
+                {detailTrip?.travelerType ?? ''} trip{detailTrip?.budget ? ` - ${detailTrip.budget}` : ''}
+              </DialogDescription>
+            </DialogHeader>
+            {detailTrip?.data && (
+              <div className="mt-4">
+                <Tabs defaultValue="itinerary">
+                  <TabsList className="w-full">
+                    <TabsTrigger value="itinerary" className="flex-1 font-serif tracking-wide">Itinerary</TabsTrigger>
+                    <TabsTrigger value="hotels" className="flex-1 font-serif tracking-wide">Hotels</TabsTrigger>
+                    <TabsTrigger value="tours" className="flex-1 font-serif tracking-wide">Tours</TabsTrigger>
+                    <TabsTrigger value="cost" className="flex-1 font-serif tracking-wide">Cost</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="itinerary" className="mt-4 space-y-3">
+                    {Array.isArray(detailTrip.data.itinerary) && detailTrip.data.itinerary.length > 0 ? (
+                      detailTrip.data.itinerary.map((d, i) => <ItineraryDayBlock key={i} day={d} />)
+                    ) : (
+                      <p className="text-sm text-muted-foreground text-center py-8">No itinerary data available</p>
+                    )}
+                  </TabsContent>
+                  <TabsContent value="hotels" className="mt-4 space-y-3">
+                    {Array.isArray(detailTrip.data.hotels) && detailTrip.data.hotels.length > 0 ? (
+                      detailTrip.data.hotels.map((h, i) => <HotelCardComponent key={i} hotel={h} />)
+                    ) : (
+                      <p className="text-sm text-muted-foreground text-center py-8">No hotel data available</p>
+                    )}
+                  </TabsContent>
+                  <TabsContent value="tours" className="mt-4 space-y-3">
+                    {Array.isArray(detailTrip.data.tours) && detailTrip.data.tours.length > 0 ? (
+                      detailTrip.data.tours.map((t, i) => <TourCardComponent key={i} tour={t} />)
+                    ) : (
+                      <p className="text-sm text-muted-foreground text-center py-8">No tour data available</p>
+                    )}
+                  </TabsContent>
+                  <TabsContent value="cost" className="mt-4">
+                    <CostSummaryCard cost={detailTrip.data.cost_summary} />
+                  </TabsContent>
+                </Tabs>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   )
 }
@@ -1118,12 +1385,13 @@ function TripsView({
 function AgentStatusPanel({ activeAgentId }: { activeAgentId: string | null }) {
   return (
     <div className="fixed bottom-4 left-4 z-40">
-      <Card className="border-border/40 shadow-lg bg-card/90 backdrop-blur-sm">
-        <CardContent className="p-3 flex items-center gap-3">
+      <Card className="border-border/30 shadow-lg bg-card/90 backdrop-blur-sm rounded-2xl overflow-hidden">
+        <div className="h-0.5 bg-gradient-to-r from-primary via-accent to-primary" />
+        <CardContent className="p-3.5 flex items-center gap-3">
           <div className={cn("h-2.5 w-2.5 rounded-full flex-shrink-0", activeAgentId ? 'bg-accent animate-pulse' : 'bg-green-500')} />
           <div className="text-xs">
-            <span className="font-medium text-foreground">Travel Advisor</span>
-            <span className="text-muted-foreground ml-2">{activeAgentId ? 'Processing...' : 'Ready'}</span>
+            <span className="font-serif font-medium text-foreground tracking-wide">Travel Advisor AI</span>
+            <span className="text-muted-foreground ml-2">{activeAgentId ? 'Planning...' : 'Ready'}</span>
           </div>
         </CardContent>
       </Card>
@@ -1193,9 +1461,10 @@ export default function Page() {
 
         {/* Sample Data Toggle */}
         <div className="fixed top-20 right-4 z-40">
-          <Card className="border-border/40 shadow-lg bg-card/90 backdrop-blur-sm">
+          <Card className="border-border/30 shadow-lg bg-card/90 backdrop-blur-sm rounded-2xl overflow-hidden">
+            <div className="h-0.5 bg-gradient-to-r from-accent to-primary" />
             <CardContent className="p-3 flex items-center gap-3">
-              <label htmlFor="sample-toggle" className="text-xs font-medium text-muted-foreground whitespace-nowrap cursor-pointer">Sample Data</label>
+              <label htmlFor="sample-toggle" className="text-xs font-serif font-medium text-muted-foreground whitespace-nowrap cursor-pointer tracking-wide">Sample Data</label>
               <Switch id="sample-toggle" checked={showSample} onCheckedChange={setShowSample} />
             </CardContent>
           </Card>
@@ -1204,9 +1473,9 @@ export default function Page() {
         {/* Save Status Inline */}
         {saveStatus && (
           <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 border border-accent/20 shadow-lg backdrop-blur-sm">
+            <div className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent/10 border border-accent/20 shadow-lg backdrop-blur-sm">
               <FiCheck className="h-4 w-4 text-accent" />
-              <span className="text-sm font-medium text-accent">{saveStatus}</span>
+              <span className="text-sm font-serif font-medium text-accent tracking-wide">{saveStatus}</span>
             </div>
           </div>
         )}

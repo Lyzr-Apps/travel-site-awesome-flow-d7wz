@@ -1,0 +1,84 @@
+{
+  "agent_name": "Travel Advisor Agent",
+  "agent_id": "69a1a716ceaca7d828c03833",
+  "description": "Conversational travel planning agent that recommends destinations, hotels, tours, and builds personalized itineraries based on user preferences, budget, and travel style. Uses real-time web search for current pricing and availability.",
+  "agent_type": "json",
+  "accessor": "result",
+  "auto_generated": true,
+  "response_schema": {
+    "message": "string",
+    "destination": "string",
+    "itinerary": [
+      {
+        "day": "number",
+        "title": "string",
+        "activities": [
+          "string"
+        ],
+        "tips": "string"
+      }
+    ],
+    "hotels": [
+      {
+        "name": "string",
+        "rating": "number",
+        "price_per_night": "string",
+        "description": "string",
+        "category": "string"
+      }
+    ],
+    "tours": [
+      {
+        "name": "string",
+        "duration": "string",
+        "price": "string",
+        "description": "string"
+      }
+    ],
+    "cost_summary": {
+      "flights": "string",
+      "accommodation": "string",
+      "activities": "string",
+      "food": "string",
+      "total": "string"
+    }
+  },
+  "example_response": {
+    "message": "The main conversational response from the travel advisor",
+    "destination": "The recommended destination name",
+    "itinerary": [
+      {
+        "day": 0,
+        "title": "Day title/theme",
+        "activities": [
+          "sample string"
+        ],
+        "tips": "Tips for the day"
+      }
+    ],
+    "hotels": [
+      {
+        "name": "Hotel name",
+        "rating": 0,
+        "price_per_night": "Price range per night",
+        "description": "Brief hotel description",
+        "category": "budget, mid-range, or luxury"
+      }
+    ],
+    "tours": [
+      {
+        "name": "Tour/activity name",
+        "duration": "Duration of the tour",
+        "price": "Estimated price",
+        "description": "Brief description"
+      }
+    ],
+    "cost_summary": {
+      "flights": "Estimated flight cost",
+      "accommodation": "Total accommodation cost",
+      "activities": "Total activities cost",
+      "food": "Estimated food budget",
+      "total": "Estimated total trip cost"
+    }
+  }
+}

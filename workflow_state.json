@@ -1,0 +1,54 @@
+{
+  "workflow": {
+    "nodes": [
+      {
+        "id": "input_node",
+        "type": "Input",
+        "label": "User Travel Query",
+        "nodeCategory": "input"
+      },
+      {
+        "id": "travel_advisor_agent",
+        "type": "Agent",
+        "label": "Travel Advisor Agent",
+        "nodeCategory": "agent"
+      },
+      {
+        "id": "output_node",
+        "type": "Output",
+        "label": "Travel Plan Response",
+        "nodeCategory": "end"
+      }
+    ],
+    "edges": [
+      {
+        "source": "input_node",
+        "target": "travel_advisor_agent"
+      },
+      {
+        "source": "travel_advisor_agent",
+        "target": "output_node"
+      }
+    ]
+  },
+  "agents": [
+    {
+      "agent_id": "69a1a716ceaca7d828c03833",
+      "agent_name": "Travel Advisor Agent",
+      "agent_type": "json",
+      "provider": "perplexity",
+      "model": "sonar-pro",
+      "temperature": 0.5,
+      "top_p": 0.95,
+      "has_tools": false,
+      "has_knowledge_base": false,
+      "has_voice": false,
+      "has_image_output": false,
+      "has_file_output": false,
+      "has_schedule": false,
+      "response_schema_file": "response_schemas/travel_advisor_agent.json"
+    }
+  ],
+  "rag_ids": [],
+  "schedule_ids": []
+}
